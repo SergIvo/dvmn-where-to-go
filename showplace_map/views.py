@@ -1,0 +1,9 @@
+from django.http import HttpResponse
+from django.template import loader
+
+
+def render_map(request):
+    template = loader.get_template('map.html')
+    context = {}
+    rendered_page = template.render(context)
+    return HttpResponse(rendered_page)
