@@ -3,7 +3,7 @@ from django.template import loader
 
 
 def render_map(request):
-    template = loader.get_template('map.html')
+    template = loader.get_template('index.html')
     context = {}
     rendered_page = template.render(context)
     return HttpResponse(rendered_page)
