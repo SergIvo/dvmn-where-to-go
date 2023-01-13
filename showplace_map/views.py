@@ -1,6 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 from places.models import Place
 
 
@@ -19,7 +20,7 @@ def render_map(request):
                 'properties': {
                     'title': place.title,
                     'placeId': place.id,
-                    'detailsUrl': 'json_file'
+                    'detailsUrl': reverse('places', kwargs={'id': place.id})
                 }
             }
         )
@@ -34,9 +35,9 @@ def render_map(request):
     return HttpResponse(rendered_page)
 
 
-def send_place_description(request, id):
+def send_place_details(request, id):
     place = get_object_or_404(Place, id=id)
-    place_features = {
+    place_details = {
         'title': place.title,
         'imgs': [image.image.url for image in place.images.all()],
         'description_short': place.description_short,
@@ -46,4 +47,4 @@ def send_place_description(request, id):
             'lng': place.longitude
         }
     }
-    return JsonResponse(place_features, json_dumps_params={'ensure_ascii': False, 'indent': 4})
+    return JsonResponse(place_details, json_dumps_params={'ensure_ascii': False, 'indent': 4})

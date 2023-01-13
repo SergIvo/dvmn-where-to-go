@@ -7,5 +7,5 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.render_map),
-    path('places/<int:id>', views.send_place_description)
+    path('places/<int:id>', views.send_place_details, name='places')
 ] + static(MEDIA_URL, document_root=MEDIA_ROOT)
