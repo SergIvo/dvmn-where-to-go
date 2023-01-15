@@ -1,13 +1,14 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Place, Image
+from .models import Place, SortableImage
+from adminsortable2.admin import SortableAdminBase, SortableInlineAdminMixin
 
 
-class ImagesInline(admin.TabularInline):
-    model = Image
+class SortableImagesInline(SortableInlineAdminMixin, admin.TabularInline):
+    model = SortableImage
     verbose_name_plural = "Фотографии"
     readonly_fields = ['show_preview']
-    fields = ('image', 'show_preview', 'number')
+    fields = ('image', 'show_preview', 'order')
 
     def show_preview(self, obj):
         max_width = 250
@@ -22,8 +23,11 @@ class ImagesInline(admin.TabularInline):
 
 
 @admin.register(Place)
-class PlaceAdmin(admin.ModelAdmin):
-    inlines = (ImagesInline,)
+class PlaceAdmin(SortableAdminBase, admin.ModelAdmin):
+    inlines = (SortableImagesInline,)
 
 
-admin.site.register(Image)
+@admin.register(SortableImage)
+class ImageAdmin(admin.ModelAdmin):
+    pass
+
