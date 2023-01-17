@@ -4,8 +4,8 @@ from tinymce.models import HTMLField
 
 class Place(models.Model):
     title = models.CharField(verbose_name='Название', max_length=200)
-    description_short = models.TextField(verbose_name='Краткое описание')
-    description_long = HTMLField(verbose_name='Развернутое описание')
+    description_short = models.TextField(verbose_name='Краткое описание', blank=True)
+    description_long = HTMLField(verbose_name='Развернутое описание', blank=True)
     longitude = models.FloatField(verbose_name='Долгота')
     latitude = models.FloatField(verbose_name='Широта')
 
@@ -23,9 +23,7 @@ class SortableImage(models.Model):
     image = models.ImageField(verbose_name='Изображение')
     order = models.PositiveIntegerField(
         verbose_name='Порядковый номер изображения',
-        default=0,
-        blank=False,
-        null=False,
+        default=0
     )
 
     class Meta:
