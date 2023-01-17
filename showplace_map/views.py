@@ -1,12 +1,11 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.template import loader
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from places.models import Place
 
 
 def render_map(request):
-    template = loader.get_template('index.html')
     places = Place.objects.all()
     places_features = []
     for place in places:
@@ -31,8 +30,7 @@ def render_map(request):
             'features': places_features
         }
     }
-    rendered_page = template.render(context)
-    return HttpResponse(rendered_page)
+    return render(request, 'index.html', context=context)
 
 
 def send_place_details(request, id):
