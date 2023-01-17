@@ -28,8 +28,8 @@ pip install -r requirements.txt
 - `MEDIA_URL` — по-умолчанию это `'/media/'`. [Что такое MEDIA_URL](https://docs.djangoproject.com/en/3.0/ref/settings/#std:setting-MEDIA_URL).
 - `MEDIA_ROOT` — по-умолчанию это `'media'`. [Что такое MEDIA_ROOT](https://docs.djangoproject.com/en/3.0/ref/settings/#std:setting-MEDIA_ROOT).
 
-**Чтобы запустить проект локально, эти настройки не требуются**, значения уже проставлены по-умолчанию. Однако для запуска проекта на реальном сервере часть значений необходимо заменить, а именно
-`DEBUG`, `SECRET_KEY` и `ALLOWED_HOSTS`. Подробнее об этом можно [почитать здесь](https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/).
+**Чтобы запустить проект локально, необходимо указать `SECRET_KEY`**, остальные значения уже проставлены по-умолчанию. Однако для запуска проекта на реальном сервере часть значений необходимо заменить, а именно
+`DEBUG` и `ALLOWED_HOSTS`. Подробнее об этом можно [почитать здесь](https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/).
 
 - Запустите сервер следующей командой: 
 ```command line
