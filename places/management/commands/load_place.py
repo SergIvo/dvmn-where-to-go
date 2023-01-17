@@ -19,10 +19,12 @@ class Command(BaseCommand):
         
         place, _ = Place.objects.get_or_create(
             title=details['title'],
-            description_short=details['description_short'],
-            description_long=details['description_long'],
-            longitude=details['coordinates']['lng'],
-            latitude=details['coordinates']['lat']
+            defaults={
+                'description_short': details['description_short'],
+                'description_long': details['description_long'],
+                'longitude': details['coordinates']['lng'],
+                'latitude': details['coordinates']['lat']
+            }
         )
         
         for image_url in details['imgs']:
