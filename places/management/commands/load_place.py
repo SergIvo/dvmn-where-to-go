@@ -20,14 +20,14 @@ class Command(BaseCommand):
         place, _ = Place.objects.get_or_create(
             title=details['title'],
             defaults={
-                'description_short': details['description_short'],
-                'description_long': details['description_long'],
+                'description_short': details.get('description_short', ''),
+                'description_long': details.get('description_long', ''),
                 'longitude': details['coordinates']['lng'],
                 'latitude': details['coordinates']['lat']
             }
         )
         
-        for image_url in details['imgs']:
+        for image_url in details.get('imgs', []):
             try:
                 response = requests.get(image_url)
             except requests.exceptions.InvalidSchema:
