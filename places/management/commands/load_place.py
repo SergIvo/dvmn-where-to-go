@@ -25,14 +25,17 @@ class Command(BaseCommand):
         image_bytes = self.get_response(image_url).content
         image_name = image_url.split('/')[-1]
         with ContentFile(image_bytes, name=image_name) as image_file:
-            saved_image = SortableImage.objects.create(place=place, image=image_file)
+            saved_image, _ = SortableImage.objects.get_or_create(
+                place=place,
+                get_file=image_file.file
+            )
         
     def handle(self, *args, **options):
         source_url = options.get('source_url')
 
         details = self.get_response(source_url).json()
 
-        place, _ = Place.objects.get_or_create(
+        place, just_created = Place.objects.get_or_create(
             title=details['title'],
             defaults={
                 'description_short': details.get('description_short', ''),
@@ -42,8 +45,9 @@ class Command(BaseCommand):
             }
         )
 
-        for image_url in details.get('imgs', []):
-            try:
-                self.download_image_to_db(image_url, place)
-            except requests.exceptions.InvalidSchema:
-                continue
+        if just_created:
+            for image_url in details.get('imgs', []):
+                try:
+                    self.download_image_to_db(image_url, place)
+                except requests.exceptions.InvalidSchema:
+                    continue
