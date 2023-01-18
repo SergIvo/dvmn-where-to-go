@@ -11,25 +11,21 @@ class SortableImagesInline(SortableInlineAdminMixin, admin.TabularInline):
     fields = ('image', 'show_preview', 'order')
 
     def show_preview(self, obj):
-        max_width = 250
-        image_ratio = obj.image.width / obj.image.height
         return format_html(
-            '<img src="{url}" width="{width}" height={height} />',
-            url=obj.image.url,
-            width=max_width,
-            height=max_width / image_ratio
+            '<img style="max-height:200px" src="{url}"/>',
+            url=obj.image.url
         )
+
     show_preview.short_description = 'Превью'
 
 
 @admin.register(Place)
 class PlaceAdmin(SortableAdminBase, admin.ModelAdmin):
     search_fields = ('title',)
-    
+
     inlines = (SortableImagesInline,)
 
 
 @admin.register(SortableImage)
 class ImageAdmin(admin.ModelAdmin):
     pass
-
