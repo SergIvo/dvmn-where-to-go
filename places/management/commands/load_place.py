@@ -37,9 +37,10 @@ class Command(BaseCommand):
             }
         )
 
-        if just_created:
-            for image_url in details.get('imgs', []):
-                try:
-                    self.download_image_to_db(image_url, place)
-                except requests.exceptions.InvalidSchema:
-                    continue
+        if not just_created:
+            return
+        for image_url in details.get('imgs', []):
+            try:
+                self.download_image_to_db(image_url, place)
+            except requests.exceptions.InvalidSchema:
+                continue
