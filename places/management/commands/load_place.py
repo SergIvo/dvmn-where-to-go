@@ -4,12 +4,6 @@ from django.core.files.base import ContentFile
 from places.models import Place, SortableImage
 
 
-def get_response(url):
-    response = requests.get(url)
-    response.raise_for_status()
-    return response
-
-
 class Command(BaseCommand):
     help = 'Fetches details for places from given url'
     
@@ -27,7 +21,7 @@ class Command(BaseCommand):
         with ContentFile(image_bytes, name=image_name) as image_file:
             saved_image, _ = SortableImage.objects.get_or_create(
                 place=place,
-                get_file=image_file.file
+                image=image_file
             )
         
     def handle(self, *args, **options):
