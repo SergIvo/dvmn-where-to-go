@@ -10,13 +10,10 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('source_url', type=str)
 
-    def get_response(self, url):
-        response = requests.get(url)
-        response.raise_for_status()
-        return response
-
     def download_image_to_db(self, image_url, place):
-        image_bytes = self.get_response(image_url).content
+        response = requests.get(image_url)
+        response.raise_for_status()
+        image_bytes = response.content
         image_name = image_url.split('/')[-1]
         with ContentFile(image_bytes, name=image_name) as image_file:
             SortableImage.objects.create(
@@ -26,8 +23,9 @@ class Command(BaseCommand):
         
     def handle(self, *args, **options):
         source_url = options.get('source_url')
-
-        details = self.get_response(source_url).json()
+        response = requests.get(source_url)
+        response.raise_for_status()
+        details = response.json()
 
         place, just_created = Place.objects.get_or_create(
             title=details['title'],
