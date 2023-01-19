@@ -19,7 +19,7 @@ class Command(BaseCommand):
         image_bytes = self.get_response(image_url).content
         image_name = image_url.split('/')[-1]
         with ContentFile(image_bytes, name=image_name) as image_file:
-            saved_image, _ = SortableImage.objects.get_or_create(
+            SortableImage.objects.create(
                 place=place,
                 image=image_file
             )
